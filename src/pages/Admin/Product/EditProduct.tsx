@@ -2,45 +2,60 @@ import { useEffect, useState } from "react";
 import ProductForm from "../../../components/Admin/Forms/ProductForm";
 import { selectedProductApi } from "../../../api/productApi";
 import { useSearchParams } from "react-router-dom";
-import { setProductToEdit } from "../../../redux/slices/adminSlice";
-import { useDispatch } from "react-redux";
+import { setEditedProduct, setProductToEdit } from "../../../redux/slices/adminSlice";
+import { useDispatch, useSelector } from "react-redux";
 import VariantsTable from "./VariantsTable";
 import { productDetailsType } from "../../../utils/types/types";
+import { updateProduct } from "../../../api/AdminApi";
+import { RootState } from "../../../redux/store";
+import { toast } from "sonner";
 
 function EditProduct() {
   const dispatch = useDispatch();
-  const [details, setDetails] = useState<productDetailsType>();
   const [searchParams] = useSearchParams();
   const key = searchParams.get("key");
 
-  const onSubmit = (data: any) => {
-    // logic to send the edited data to backend
-    console.log(data);
-    return Promise.resolve();
+  const editedProduct = useSelector((store: RootState)=>store.admin.editedProduct);
+  const product:productDetailsType = useSelector((store: RootState)=>store.admin.productToEdit);
+
+  
+  const onSubmit = async (data: any) => {
+    data.file = product?.image;
+    data.uniqueId = product?.uniqueId;
+
+    const result = await updateProduct(key, data);
+    if(result?.status === 200){
+      dispatch(setEditedProduct("success"))
+      toast("Product Updated!!")
+    }else{
+      toast("Something went wrong!")
+    }
+    // console.log(result)
   };
 
   const fetchProduct = async () => {
     const result = await selectedProductApi(key);
     if (result?.status === 200) {
-      setDetails(result.data);
       dispatch(setProductToEdit(result.data));
     } else {
-      return <>Something went wrong</>;
+      toast("Something went wrong!")
     }
   };
 
-  console.log(details)
-
   useEffect(() => {
     fetchProduct();
-  }, []);
+  }, [editedProduct]);
+
   return (
     <>
-      <ProductForm
-        onSubmit={onSubmit}
-        product={details ? details : undefined}
-      />
-      <VariantsTable variant={details?.variants} />
+      {product ? (
+        <>
+          <ProductForm onSubmit={onSubmit} product={product} />
+          <VariantsTable variant={product?.variants} />
+        </>
+      ) : (
+        <>Loadingggggggggg...........</>
+      )}
     </>
   );
 }

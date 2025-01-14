@@ -1,5 +1,4 @@
-import { Box, Button } from "@mui/material";
-import React from "react";
+import VariantRow from "../../../components/Admin/Tables/VariantRow";
 
 type VaraintTablePropsType = {
   variant:
@@ -8,8 +7,6 @@ type VaraintTablePropsType = {
 };
 
 function VariantsTable({ variant }: VaraintTablePropsType) {
-  const handleClick = () => {
-  };
   let content;
 
   if (variant?.length === 0) {
@@ -18,22 +15,22 @@ function VariantsTable({ variant }: VaraintTablePropsType) {
     content = (
       <div className="relative overflow-x-auto shadow-sm sm:rounded-lg bg-white px-40 py-10 my-8">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-          <thead className="text-xs  uppercase bg-black">
+          <thead className="uppercase bg-black">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Image
               </th>
 
               <th scope="col" className="px-6 py-3">
-                Product name
+                color
               </th>
 
               <th scope="col" className="px-6 py-3">
-                Description
+                stock
               </th>
 
               <th scope="col" className="px-6 py-3">
-                <div className="flex items-center">Brand</div>
+                <div className="flex items-center">sizes</div>
               </th>
 
               <th scope="col" className="px-6 py-3 text-white text-right">
@@ -42,32 +39,7 @@ function VariantsTable({ variant }: VaraintTablePropsType) {
             </tr>
           </thead>
           {variant?.map((v) => (
-            <tbody>
-              <tr className="bg-white border-b">
-                <th>
-                  <Box className="bg-cover w-[70px] m-2">
-                    <img src={`${v.image[0]}`} alt="" />
-                  </Box>
-                </th>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium whitespace-nowrap "
-                >
-                  {v.color}
-                </th>
-                <td className="px-6 py-4">{v.stock}</td>
-                <td className="px-6 py-4">{v.size}</td>
-                <td className="px-2 py-4 text-right">
-                  <Button
-                    variant="contained"
-                    disableElevation
-                    onClick={handleClick}
-                  >
-                    Edit
-                  </Button>
-                </td>
-              </tr>
-            </tbody>
+            <VariantRow variant={v}/>
           ))}
         </table>
       </div>

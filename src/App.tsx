@@ -6,6 +6,7 @@ import Signin from "./pages/Auth/Signin";
 import SignUp from "./pages/Auth/Signup";
 import Home from "./pages/Admin/Home";
 import Layout from "./pages/Layouts/Layout";
+import { Toaster } from "sonner";
 
 const AddProduct = lazy(() => import("./pages/Admin/Product/AddProduct"));
 const AdminLayout = lazy(() => import("./pages/Layouts/AdminLayout"));
@@ -13,6 +14,7 @@ const OtpSignin = lazy(() => import("./pages/Auth/OtpSignin"));
 const EditProduct = lazy(() => import("./pages/Admin/Product/EditProduct"));
 
 function App() {
+
   return (
     <>
       <Suspense fallback={<>loading</>}>
@@ -39,7 +41,10 @@ function App() {
 
           <Route element={<AdminLayout />}>
             <Route path="admin/add-product" element={<AddProduct />}></Route>
-            <Route path="admin/products/edit-product" element={<EditProduct />}></Route>
+            <Route
+              path="admin/products/edit-product"
+              element={<EditProduct />}
+            ></Route>
             <Route path="admin/dashboard" element={<Home />}></Route>
             <Route path="admin/products" element={<Home />}></Route>
             <Route path="admin/users" element={<Home />}></Route>

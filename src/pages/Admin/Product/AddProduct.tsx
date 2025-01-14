@@ -8,8 +8,9 @@ type DataType = { stock: string; color: string; Image?: any; size?: any };
 export default function AddProduct() {
 
   const onSubmit = async (data: any) => {
-    const res = await addProductApi(data);
-    console.log(res);
+    console.log(data)
+    // const res = await addProductApi(data);
+    // console.log(res);
   };
 
   return (

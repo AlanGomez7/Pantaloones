@@ -17,12 +17,13 @@ function ProductTable() {
   const fetchProducts = async () => {
     setLoading(true);
     const result = await fetchProduct();
-    setRes(products);
+    setRes(result?.data);
     if (result?.status === 200) {
       setLoading(false);
     } else {
       return <>Something went wrong</>;
     }
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -37,7 +38,7 @@ function ProductTable() {
           className="mb-2 bg-gray-100 rounded-md p-1"
         />
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-          <thead className="text-xs  uppercase bg-black">
+          <thead className="text-xs uppercase bg-black">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Image
@@ -72,31 +73,43 @@ function ProductTable() {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {res?.map((p:any) => (
-              <tr className="bg-white border-b">
-                <th>
-                  <Box className="bg-cover w-[70px]">
-                    <img src={`${p.image[0]}`} alt="" />
-                  </Box>
-                </th>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium whitespace-nowrap"
-                >
-                  {p.title}
-                </th>
-                <td className="px-6 py-4">{p.brand}</td>
-                <td className="px-6 py-4">{p.description}</td>
-                <td className="px-6 py-4">{p.category}</td>
-                <td className="px-6 py-4">{p.stock}</td>
-                <td className="px-6 py-4">$ {p.price}</td>
-                <td className="px-2 py-4 text-right">
-                  <Button variant="contained" disableElevation onClick={()=>handleClick(p.uniqueId)}>Edit</Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          
+          {loading ? (
+            <>loading.....</>
+          ) : (
+            <tbody>
+              {res?.map((p: any) => (
+                <tr className="bg-white border-b">
+                  <th>
+                    <Box className="bg-cover w-[70px]">
+                      <img src={`${p?.image[0]}`} alt="" />
+                    </Box>
+                  </th>
+
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium whitespace-nowrap"
+                  >
+                    {p.title}
+                  </th>
+                  <td className="px-6 py-4">{p.brand}</td>
+                  <td className="px-6 py-4">{p.description}</td>
+                  <td className="px-6 py-4">{p.category}</td>
+                  <td className="px-6 py-4">{p.stock}</td>
+                  <td className="px-6 py-4">$ {p.price}</td>
+                  <td className="px-2 py-4 text-right">
+                    <Button
+                      variant="contained"
+                      disableElevation
+                      onClick={() => handleClick(p.uniqueId)}
+                    >
+                      Edit
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
     </>

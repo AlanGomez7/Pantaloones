@@ -1,7 +1,7 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import App from "./App";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import store, { RootState } from "./redux/store";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 import { blue } from "@mui/material/colors";
 
 function AppContainer() {
@@ -19,11 +19,13 @@ function AppContainer() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <App/>
-      </Provider>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ThemeProvider>
+    </>
   );
 }
 

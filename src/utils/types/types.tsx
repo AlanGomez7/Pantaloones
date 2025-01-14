@@ -19,8 +19,8 @@ export type productDetailsType =  {
   description: string;
   image: string[];
   isListed: boolean;
-  price: string;
-  stock: string;
+  price: number;
+  stock: number;
   title: string;
   color:string
   uniqueId: string;

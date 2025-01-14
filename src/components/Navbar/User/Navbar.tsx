@@ -1,4 +1,3 @@
-import React from "react";
 import TopNavbar from "./TopNavbar";
 import SearchNavbar from "./SearchNavbar";
 
